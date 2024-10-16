@@ -1,18 +1,12 @@
 import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 
-
-
-
 interface TextInputProps {
 label: string;
 name: string;
 type?: string;
 placeholder?: string;
 }
-
-
-
 
 const TextInput: React.FC<TextInputProps> = ({ label, name, type = "text", placeholder }) => {
 return (
@@ -29,8 +23,5 @@ return (
   </div>
 );
 };
-
-
-
 
 export default TextInput;

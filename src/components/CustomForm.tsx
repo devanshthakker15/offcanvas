@@ -7,8 +7,8 @@ import { FormData } from '../types/formData';
 
 interface FormProps {
   onFormSubmit: (newData: FormData) => void;
-  editData?: FormData; // Made optional for new form submissions
-  onClose: () => void; // Function to close the modal
+  editData?: FormData; 
+  onClose: () => void; 
 }
 
 const CustomForm: React.FC<FormProps> = ({ onFormSubmit, editData, onClose }) => {

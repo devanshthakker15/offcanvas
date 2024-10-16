@@ -9,7 +9,7 @@ interface OffcanvasFormProps {
   title: string;
   onFormSubmit: (newData: FormData) => void;
   editData?: FormData;
-  onClose: () => void; // Add this line
+  onClose: () => void; 
 }
 
 const OffcanvasForm: React.FC<OffcanvasFormProps> = ({ show, handleClose, title, onFormSubmit, editData, onClose }) => {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Card, Table, Button } from 'react-bootstrap';
 import Pagination from './Pagination';
-import { FormData } from '../types/formData'; // Import the FormData type
+import { FormData } from '../types/formData'; 
 import "../App.css";
 
 interface FormDetailsCardProps {
   title: string;
-  formData: FormData[]; // Use FormData type here
+  formData: FormData[];
   handleDelete: (index: number) => void;
   handleEdit: (index: number) => void;
 }
