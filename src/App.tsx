@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import ModalForm from './components/ModalForm'
-import OffcanvasForm from './components/OffcanvasForm'; 
-import FormDetailsCard from './components/FormDetailsCard'; 
+import ModalForm from './components/ModalForm';
+import OffcanvasForm from './components/OffcanvasForm';
+import FormDetailsCard from './components/FormDetailsCard';
+import { FormData } from './types/formData'; 
 
 const App: React.FC = () => {
-  const [modalFormData, setModalFormData] = useState<any[]>([]);
-  const [offcanvasFormData, setOffcanvasFormData] = useState<any[]>([]);
+  const [modalFormData, setModalFormData] = useState<FormData[]>([]);
+  const [offcanvasFormData, setOffcanvasFormData] = useState<FormData[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,6 @@ const App: React.FC = () => {
     const storedModalData = localStorage.getItem("modalFormData");
     const storedOffcanvasData = localStorage.getItem("offcanvasFormData");
 
-    // Parse the stored data and update state
     if (storedModalData) {
       setModalFormData(JSON.parse(storedModalData));
     }
@@ -25,79 +25,75 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Delete functionality
+  
   const handleModalDelete = (index: number) => {
     const updatedData = modalFormData.filter((_, i) => i !== index);
     setModalFormData(updatedData);
-    localStorage.setItem("modalFormData", JSON.stringify(updatedData)); // Update local storage
+    localStorage.setItem("modalFormData", JSON.stringify(updatedData));
   };
 
   const handleOffcanvasDelete = (index: number) => {
     const updatedData = offcanvasFormData.filter((_, i) => i !== index);
     setOffcanvasFormData(updatedData);
-    localStorage.setItem("offcanvasFormData", JSON.stringify(updatedData)); // Update local storage
+    localStorage.setItem("offcanvasFormData", JSON.stringify(updatedData));
   };
 
-  // Edit functionality
+  
   const handleModalEdit = (index: number) => {
-    setEditIndex(index); // Set the index of the item being edited
-    setShowModal(true); 
+    setEditIndex(index);
+    setShowModal(true);
   };
 
   const handleOffcanvasEdit = (index: number) => {
-    setEditIndex(index); // Set the index of the item being edited
-    setShowOffcanvas(true); 
+    setEditIndex(index);
+    setShowOffcanvas(true);
   };
 
-  // Handle form submission for Modal
-  const handleModalFormSubmit = (newData: any) => {
+ 
+  const handleModalFormSubmit = (newData: FormData) => {
     let updatedData = [...modalFormData];
     if (editIndex !== null) {
-      updatedData[editIndex] = newData; // Update the existing entry
-      setEditIndex(null); // Reset edit state
+      updatedData[editIndex] = newData;
+      setEditIndex(null);
     } else {
-      updatedData.push(newData); // Add a new entry
+      updatedData.push(newData);
     }
     setModalFormData(updatedData);
-    localStorage.setItem("modalFormData", JSON.stringify(updatedData)); // Update local storage
-    setShowModal(false); // Close modal after submission
+    localStorage.setItem("modalFormData", JSON.stringify(updatedData));
+    setShowModal(false);
   };
 
-  // Handle form submission for Offcanvas
-  const handleOffcanvasFormSubmit = (newData: any) => {
+  
+  const handleOffcanvasFormSubmit = (newData: FormData) => {
     let updatedData = [...offcanvasFormData];
     if (editIndex !== null) {
-      updatedData[editIndex] = newData; // Update the existing entry
-      setEditIndex(null); // Reset edit state
+      updatedData[editIndex] = newData;
+      setEditIndex(null);
     } else {
-      updatedData.push(newData); // Add a new entry
+      updatedData.push(newData);
     }
     setOffcanvasFormData(updatedData);
-    localStorage.setItem("offcanvasFormData", JSON.stringify(updatedData)); // Update local storage
-    setShowOffcanvas(false); // Close offcanvas after submission
+    localStorage.setItem("offcanvasFormData", JSON.stringify(updatedData));
+    setShowOffcanvas(false);
   };
 
   return (
     <div className="container">
       <div className="mt-3 mb-3 d-flex justify-content-around">
-        {/* Button to open the offcanvas form */}
         <Button variant="primary" onClick={() => {
-          setEditIndex(null); // Reset editIndex for new entry
+          setEditIndex(null);
           setShowOffcanvas(true);
         }}>
           Add New Entry (Offcanvas)
         </Button>
-
-        {/* Button to open the modal form */}
         <Button variant="primary" onClick={() => {
-          setEditIndex(null); // Reset editIndex for new entry
+          setEditIndex(null);
           setShowModal(true);
         }}>
           Add New Entry (Modal)
         </Button>
       </div>
 
-      {/* Display Form Details Card for both modal and offcanvas data */}
       <FormDetailsCard
         title="Modal Form Data"
         formData={modalFormData}
@@ -112,22 +108,28 @@ const App: React.FC = () => {
         handleEdit={handleOffcanvasEdit}
       />
 
-      {/* Render Modal and Offcanvas forms */}
-      {showModal && (
-        <ModalForm
-          onFormSubmit={handleModalFormSubmit}
-          editData={editIndex !== null ? modalFormData[editIndex] : null}
-          onClose={() => setShowModal(false)}
-        />
-      )}
+{showModal && (
+  <ModalForm
+  title='ModalForm'
+    show={showModal} 
+    onFormSubmit={handleModalFormSubmit}
+    editData={editIndex !== null ? modalFormData[editIndex] : null}
+    onClose={() => setShowModal(false)} 
+    handleClose={() => setShowModal(false)} 
+  />
+)}
 
-      {showOffcanvas && (
-        <OffcanvasForm
-          onFormSubmit={handleOffcanvasFormSubmit}
-          editData={editIndex !== null ? offcanvasFormData[editIndex] : null}
-          onClose={() => setShowOffcanvas(false)}
-        />
-      )}
+{showOffcanvas && (
+  <OffcanvasForm
+  title='OffcanvasForm'
+    show={showOffcanvas} 
+    onFormSubmit={handleOffcanvasFormSubmit}
+    editData={editIndex !== null ? offcanvasFormData[editIndex] : null}
+    onClose={() => setShowOffcanvas(false)} 
+    handleClose={() => setShowOffcanvas(false)} 
+  />
+)}
+
     </div>
   );
 };

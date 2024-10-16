@@ -1,65 +1,25 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Modal, Button } from 'react-bootstrap';
-import { basicSchema } from "../schema/basicSchema";
+import { Modal } from 'react-bootstrap';
+import CustomForm from './CustomForm';
+import { FormData } from '../types/formData';
 
 interface ModalFormProps {
-  onFormSubmit: (newData: any) => void;
-  editData: any;
-  onClose: () => void; // Function to close the modal
+  show: boolean;
+  handleClose: () => void;
+  title: string;
+  onFormSubmit: (newData: FormData) => void;
+  editData?: FormData;
+  onClose: () => void; 
 }
 
-const ModalForm: React.FC<ModalFormProps> = ({ onFormSubmit, editData, onClose }) => {
+const ModalForm: React.FC<ModalFormProps> = ({ show, handleClose, title, onFormSubmit, editData, onClose }) => {
   return (
-    <Modal show onHide={onClose}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{editData ? 'Edit Entry' : 'Add New Entry'}</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Formik
-          initialValues={{
-            categoryName: editData?.categoryName || '',
-            categoryCode: editData?.categoryCode || '',
-            categoryDescription: editData?.categoryDescription || '',
-            price: editData?.price || '',
-          }}
-          enableReinitialize={true}  
-          validationSchema={basicSchema}
-          onSubmit={(values) => {
-            onFormSubmit(values);
-          }}
-        >
-          {({ handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <Field name="categoryName" placeholder="Almonds Category Name" className="form-control" />
-                <ErrorMessage name="categoryName" component="div" className="text-danger" />
-              </div>
-
-              <div className="mb-3">
-                <Field name="categoryCode" placeholder="Category Code" className="form-control" />
-                <ErrorMessage name="categoryCode" component="div" className="text-danger" />
-              </div>
-
-              <div className="mb-3">
-                <Field name="categoryDescription" placeholder="Category Description" className="form-control" />
-                <ErrorMessage name="categoryDescription" component="div" className="text-danger" />
-              </div>
-
-              <div className="mb-3">
-                <Field name="price" placeholder="Price" className="form-control" />
-                <ErrorMessage name="price" component="div" className="text-danger" />
-              </div>
-
-              <Button type="submit" className="me-2">
-                {editData ? 'Update' : 'Submit'}
-              </Button>
-              <Button variant="secondary" onClick={onClose}>
-                Close
-              </Button>
-            </Form>
-          )}
-        </Formik>
+        <CustomForm onFormSubmit={onFormSubmit} editData={editData} onClose={onClose} />
       </Modal.Body>
     </Modal>
   );
