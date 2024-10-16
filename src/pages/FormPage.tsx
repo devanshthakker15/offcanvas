@@ -116,7 +116,7 @@ const FormPage: React.FC = () => {
           onFormSubmit={(newData) => handleFormSubmit('offcanvas', newData)}
           editData={editIndex !== null ? offcanvasFormData[editIndex] : null}
           onClose={() => setShowOffcanvas(false)} 
-          handleClose={() => setShowOffcanvas}
+          handleClose={() => setShowOffcanvas(false)}
         />
       )}
     </div>

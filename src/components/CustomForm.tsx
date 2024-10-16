@@ -29,7 +29,7 @@ const CustomForm: React.FC<FormProps> = ({ onFormSubmit, editData, onClose }) =>
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <Field name="categoryName" placeholder="Almonds Category Name" className="form-control" />
+            <Field name="categoryName" placeholder="Category Name" className="form-control" />
             <ErrorMessage name="categoryName" component="div" className="text-danger" />
           </div>
 
